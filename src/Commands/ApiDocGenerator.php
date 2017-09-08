@@ -4,6 +4,8 @@ namespace Despark\Apidoc\Commands;
 
 use Illuminate\Console\Command;
 use ReflectionClass;
+use Illuminate\Console\AppNamespaceDetectorTrait;
+
 
 /**
  * Class ApiDocGenerator
@@ -172,10 +174,12 @@ class ApiDocGenerator extends Command
         }
         
         $methodType = strtolower(str_replace('|HEAD', '', $method['method']));
-        
+
+        $appNamespace = $this->getAppNamespace();
+
         $path = [
             'tags'        => [
-                str_replace('CE\Http\Controllers', '', array_get($method, 'controllerNameSpace', '')),
+                str_replace($appNamespace . 'Http\Controllers', '', array_get($method, 'controllerNameSpace', '')),
             ],
             'summary'     => array_get($docArray, 'desc'),
             'description' => array_get($method, 'controllerClassName', ''),
