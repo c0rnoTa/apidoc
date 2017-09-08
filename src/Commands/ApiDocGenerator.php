@@ -3,6 +3,8 @@
 namespace Despark\Apidoc\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Container\Container;
+
 use ReflectionClass;
 
 
@@ -13,9 +15,6 @@ use ReflectionClass;
  */
 class ApiDocGenerator extends Command
 {
-
-    // Include namespace trait
-    use Illuminate\Console\AppNamespaceDetectorTrait;
 
     /**
      * Code example
@@ -179,7 +178,7 @@ class ApiDocGenerator extends Command
 
         $path = [
             'tags'        => [
-                str_replace($this->getAppNamespace() . '\Http\Controllers', '', array_get($method, 'controllerNameSpace', '')),
+                str_replace(Container::getInstance()->getNamespace() . '\Http\Controllers', '', array_get($method, 'controllerNameSpace', '')),
             ],
             'summary'     => array_get($docArray, 'desc'),
             'description' => array_get($method, 'controllerClassName', ''),
